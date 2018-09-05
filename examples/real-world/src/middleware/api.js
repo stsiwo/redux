@@ -103,6 +103,9 @@ export default store => next => action => {
     throw new Error('Expected action types to be strings.')
   }
 
+  // this is action which is supposed to be in Action. 
+  // therefore, there is no action function related to api in Action
+  // this is fuckking tricky
   const actionWith = data => {
     const finalAction = Object.assign({}, action, data)
     delete finalAction[CALL_API]
@@ -116,7 +119,8 @@ export default store => next => action => {
     response => next(actionWith({
       response,
       type: successType
-    })),
+    })), // instead of going to action/index, use above function called 'actionWith'
+    // directly go to reducer fucking tricky man. come on...
     error => next(actionWith({
       type: failureType,
       error: error.message || 'Something bad happened'
